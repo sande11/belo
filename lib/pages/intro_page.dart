@@ -1,3 +1,4 @@
+import 'package:belo/pages/home_page.dart';
 import 'package:flutter/material.dart';
 
 class IntroPage extends StatefulWidget {
@@ -68,9 +69,10 @@ class _IntroPageState extends State<IntroPage>
                 ),
                 const SizedBox(height: 40),
                 GestureDetector(
-                  onTap: () {
-                    // Handle button tap
-                  },
+                  onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const HomePage())),
                   child: Container(
                     decoration: BoxDecoration(
                       color: Colors.grey[900],
