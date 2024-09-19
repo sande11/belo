@@ -22,7 +22,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   final List<Widget> _pages = [
-    const ShopPage(),
+    ShopPage(),
     const CartPage(),
     const AccountPage(),
     const FavoritesPage()

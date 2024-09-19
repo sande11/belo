@@ -1,9 +1,24 @@
+import 'package:belo/components/purchase_option_form.dart';
 import 'package:belo/models/shoe.dart';
 import 'package:flutter/material.dart';
 
 class ShoeTile extends StatelessWidget {
   Shoe shoe;
   ShoeTile({super.key, required this.shoe});
+
+    // Function to display bottom sheet for adding to cart or buying now
+  void showPurchaseOptions(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return PurchaseOptionsForm(shoe: shoe); // Pass the shoe details to the form
+      },
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      isScrollControlled: true,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,17 +65,20 @@ class ShoeTile extends StatelessWidget {
                   )
                 ],
               ),
-              Container(
-                  padding: const EdgeInsets.all(20),
-                  decoration: const BoxDecoration(
-                      color: Colors.black,
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(12),
-                          bottomRight: Radius.circular(12))),
-                  child: const Icon(
-                    Icons.add,
-                    color: Colors.white,
-                  ))
+              GestureDetector(
+                 onTap: () => showPurchaseOptions(context),
+                child: Container(
+                    padding: const EdgeInsets.all(20),
+                    decoration: const BoxDecoration(
+                        color: Colors.black,
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(12),
+                            bottomRight: Radius.circular(12))),
+                    child: const Icon(
+                      Icons.add,
+                      color: Colors.white,
+                    )),
+              )
             ],
           ),
         )

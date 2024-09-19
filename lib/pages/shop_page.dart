@@ -1,30 +1,57 @@
 import 'package:belo/components/shoe_tile.dart';
 import 'package:belo/models/shoe.dart';
+import 'package:belo/pages/search_page.dart';
 import 'package:flutter/material.dart';
 
 class ShopPage extends StatelessWidget {
-  const ShopPage({super.key});
+  ShopPage({super.key});
+  // Sample shoe list defined within the page
+  final List<Shoe> shoeList = [
+    Shoe(
+      name: 'Air Jordan',
+      price: 'K54,000',
+      imagePath: 'assets/images/air jordan green.jpg',
+      description: 'Cool shoe',
+    ),
+    Shoe(
+      name: 'Nike Air Max',
+      price: 'K65,000',
+      imagePath: 'assets/images/air jordan red.jpg',
+      description: 'Stylish shoe',
+    ),
+    // Add more shoes...
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Container(
-          padding: const EdgeInsets.all(12),
-          margin: const EdgeInsets.symmetric(horizontal: 25),
-          decoration: BoxDecoration(
-            color: Colors.grey[100],
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: const Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text('Search'),
-              Icon(
-                Icons.search,
-                color: Colors.grey,
-              )
-            ],
+        GestureDetector(
+          onTap: () {
+            // Navigate to the Search Page
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => SearchPage(shoeList: shoeList)),
+            );
+          },
+          child: Container(
+            padding: const EdgeInsets.all(12),
+            margin: const EdgeInsets.symmetric(horizontal: 25),
+            decoration: BoxDecoration(
+              color: Colors.grey[100],
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: const Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('Search'),
+                Icon(
+                  Icons.search,
+                  color: Colors.grey,
+                )
+              ],
+            ),
           ),
         ),
         Padding(
