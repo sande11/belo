@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class PurchaseOptionsForm extends StatefulWidget {
   final Shoe shoe;
-  const PurchaseOptionsForm({required this.shoe});
+  const PurchaseOptionsForm({super.key, required this.shoe});
 
   @override
   _PurchaseOptionsFormState createState() => _PurchaseOptionsFormState();
@@ -17,7 +17,7 @@ class _PurchaseOptionsFormState extends State<PurchaseOptionsForm> {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(
-        bottom: MediaQuery.of(context).viewInsets.bottom, // Adjust for keyboard
+        bottom: MediaQuery.of(context).viewInsets.bottom,
         left: 16,
         right: 16,
         top: 16,
@@ -60,7 +60,7 @@ class _PurchaseOptionsFormState extends State<PurchaseOptionsForm> {
               });
             },
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
 
           // Add to Cart and Buy Now buttons
           Row(
@@ -71,20 +71,20 @@ class _PurchaseOptionsFormState extends State<PurchaseOptionsForm> {
                   // Add to cart logic
                   Navigator.pop(context); // Close the modal after action
                 },
-                child: Text('Add to Cart'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blue,
                 ),
+                child: const Text('Add to Cart'),
               ),
               ElevatedButton(
                 onPressed: () {
                   // Buy now logic
                   Navigator.pop(context); // Close the modal after action
                 },
-                child: Text('Buy Now'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.green,
                 ),
+                child: const Text('Buy Now'),
               ),
             ],
           ),
