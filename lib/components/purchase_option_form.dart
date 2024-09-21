@@ -1,8 +1,11 @@
+import 'package:belo/models/cart.dart';
 import 'package:belo/models/shoe.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class PurchaseOptionsForm extends StatefulWidget {
   final Shoe shoe;
+
   const PurchaseOptionsForm({super.key, required this.shoe});
 
   @override
@@ -68,8 +71,22 @@ class _PurchaseOptionsFormState extends State<PurchaseOptionsForm> {
             children: [
               ElevatedButton(
                 onPressed: () {
-                  // Add to cart logic
-                  Navigator.pop(context); // Close the modal after action
+                  // Ensure both size and color are selected
+                  if (selectedSize != null && selectedColor != null) {
+                    Provider.of<Cart>(context, listen: false).addItemToCart(
+                      widget.shoe, 
+                      // selectedSize!, 
+                      // selectedColor!,
+                    );
+                    Navigator.pop(context); // Close the modal after adding to cart
+                  } else {
+                    // Show an alert if the user hasn't selected size and color
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Please select both size and color'),
+                      ),
+                    );
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blue,

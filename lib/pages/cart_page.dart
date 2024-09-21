@@ -22,12 +22,14 @@ class CartPage extends StatelessWidget {
                     height: 10,
                   ),
 
-                  Expanded(child: ListView.builder(
+                  Expanded(
+                      child: ListView.builder(
                     itemCount: value.getShoeList().length,
-                    itemBuilder: (context, index){
-                    Shoe individualShoe = value.getShoeList()[index];
-                    return CartItem(shoe: individualShoe);
-                  },))
+                    itemBuilder: (context, index) {
+                      Shoe individualCartItem = value.getShoeList()[index];
+                      return CartItem(shoe: individualCartItem);
+                    },
+                  )),
                 ],
               ),
             ));
