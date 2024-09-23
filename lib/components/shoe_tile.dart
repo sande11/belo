@@ -6,12 +6,13 @@ class ShoeTile extends StatelessWidget {
   Shoe shoe;
   ShoeTile({super.key, required this.shoe});
 
-    // Function to display bottom sheet for adding to cart or buying now
+  // Function to display bottom sheet for adding to cart or buying now
   void showPurchaseOptions(BuildContext context) {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
-        return PurchaseOptionsForm(shoe: shoe); // Pass the shoe details to the form
+        return PurchaseOptionsForm(
+            shoe: shoe); // Pass the shoe details to the form
       },
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
@@ -66,7 +67,7 @@ class ShoeTile extends StatelessWidget {
                 ],
               ),
               GestureDetector(
-                 onTap: () => showPurchaseOptions(context),
+                onTap: () => showPurchaseOptions(context),
                 child: Container(
                     padding: const EdgeInsets.all(20),
                     decoration: const BoxDecoration(

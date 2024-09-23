@@ -5,8 +5,20 @@ class AccountPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text('account'),
+    return const Scaffold(
+      backgroundColor: Colors.transparent,
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 25),
+        child: Column(children: [
+          Text(
+            'My Account',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+        ]),
+      ),
     );
   }
 }

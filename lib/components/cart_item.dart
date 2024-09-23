@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 
 class CartItem extends StatefulWidget {
   final Shoe shoe; // Mark this as final and required
-  CartItem({super.key, required this.shoe});
+  const CartItem({super.key, required this.shoe});
 
   @override
   State<CartItem> createState() => _CartItemState();
@@ -21,12 +21,26 @@ class _CartItemState extends State<CartItem> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: Colors.grey[100], borderRadius: BorderRadius.circular(8)),
+        color: Colors.grey[100],
+        borderRadius: BorderRadius.circular(8),
+      ),
       margin: const EdgeInsets.only(bottom: 10),
       child: ListTile(
-        leading: Image.asset(widget.shoe.imagePath),  // Correctly access the shoe property
-        title: Text(widget.shoe.name),               // Correct the title to show the shoe name
-        subtitle: Text(widget.shoe.price),           // Show the shoe price
+        leading: Row(
+          mainAxisSize:
+              MainAxisSize.min, // Minimize space between checkbox and image
+          children: [
+            const Checkbox(value: false, onChanged: null),
+            Image.asset(
+              widget.shoe.imagePath,
+              height: 100,
+              width: 60,
+              fit: BoxFit.cover,
+            ),
+          ],
+        ),
+        title: Text(widget.shoe.name), // Correctly access the shoe name
+        subtitle: Text(widget.shoe.price), // Correctly access the shoe price
         trailing: IconButton(
           icon: const Icon(Icons.delete),
           onPressed: removeItemFromCart,

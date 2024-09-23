@@ -10,28 +10,44 @@ class CartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<Cart>(
-        builder: (context, value, child) => Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25),
-              child: Column(
+      builder: (context, value, child) => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 25),
+        child: Column(
+          crossAxisAlignment:
+              CrossAxisAlignment.start, // Aligns children to the start
+          children: [
+            const Align(
+              alignment: Alignment
+                  .centerLeft, // Aligns text to the start of the screen
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  const Text(
+                  Text(
                     'My Cart',
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-
-                  Expanded(
-                      child: ListView.builder(
-                    itemCount: value.getShoeList().length,
-                    itemBuilder: (context, index) {
-                      Shoe individualCartItem = value.getShoeList()[index];
-                      return CartItem(shoe: individualCartItem);
-                    },
-                  )),
+                  Text(
+                    'Total: K0',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, color: Colors.blue),
+                  )
                 ],
               ),
-            ));
+            ),
+            const SizedBox(height: 10),
+            Expanded(
+              child: ListView.builder(
+                itemCount: value.getShoeList().length,
+                itemBuilder: (context, index) {
+                  Shoe individualCartItem = value.getShoeList()[index];
+                  return CartItem(shoe: individualCartItem);
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
