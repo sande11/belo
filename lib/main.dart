@@ -1,7 +1,9 @@
 import 'package:belo/models/cart.dart';
-import 'package:belo/pages/account_page.dart';
+import 'package:belo/pages/forget_password_page.dart';
+
 import 'package:belo/pages/intro_page.dart';
-import 'package:belo/pages/login_screen.dart';
+import 'package:belo/pages/signup_page.dart';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -19,10 +21,10 @@ class MyApp extends StatelessWidget {
       builder: (context, child) => MaterialApp(
         debugShowCheckedModeBanner: false,
         home: const IntroPage(),
-         routes: {
-        AccountPage.routeName: (context) => const AccountPage(),
-        LoginScreen.routeName: (context) => const LoginScreen(),
-      },
+        routes: {
+          '/forgotPassword': (context) => const ForgetPassword(),
+          '/signup': (context) => const SignupPage()
+        },
       ),
     );
   }

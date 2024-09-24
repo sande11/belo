@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class AccountPage extends StatelessWidget {
+class ForgetPassword extends StatelessWidget {
   static String routeName = '/account';
 
-  const AccountPage({super.key});
+  const ForgetPassword({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +31,7 @@ class AccountPage extends StatelessWidget {
             const Padding(
               padding: EdgeInsets.only(left: 18),
               child: Text(
-                'Login',
+                'Forget Password',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
             ),
@@ -46,17 +46,6 @@ class AccountPage extends StatelessWidget {
                           labelText: 'email',
                           hintText:
                               'Enter valid email address as abc@gmail.com'),
-                    ),
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.only(
-                        left: 15.0, right: 15.0, top: 15, bottom: 0),
-                    child: TextField(
-                      obscureText: true,
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: 'Password',
-                          hintText: 'Enter secure password'),
                     ),
                   ),
                   SizedBox(
