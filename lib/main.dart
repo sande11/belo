@@ -1,5 +1,7 @@
 import 'package:belo/models/cart.dart';
+import 'package:belo/pages/account_page.dart';
 import 'package:belo/pages/intro_page.dart';
+import 'package:belo/pages/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -14,9 +16,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => Cart(),
-      builder: (context, child) => const MaterialApp(
+      builder: (context, child) => MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: IntroPage(),
+        home: const IntroPage(),
+         routes: {
+        AccountPage.routeName: (context) => const AccountPage(),
+        LoginScreen.routeName: (context) => const LoginScreen(),
+      },
       ),
     );
   }
