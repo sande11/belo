@@ -11,7 +11,102 @@ class ForgetPassword extends StatelessWidget {
     false; // Dummy condition to check if the user is logged in
 
     return Scaffold(
-      backgroundColor: Colors.transparent,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: Builder(builder: (context) {
+          return IconButton(
+            icon: const Icon(Icons.menu),
+            color: Colors.black,
+            onPressed: () {
+              Scaffold.of(context).openDrawer();
+            },
+          );
+        }),
+      ),
+      drawer: Drawer(
+        backgroundColor: Colors.grey[900],
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            DrawerHeader(
+              decoration: const BoxDecoration(
+                  // color: Colors.black, // Header with contrast
+                  ),
+              child: Image.asset(
+                'assets/images/technology.png',
+                color: Colors.white,
+                width: 150,
+              ),
+            ),
+            // Home Item
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: ListTile(
+                leading: const Icon(Icons.home, color: Colors.white),
+                title:
+                    const Text('Home', style: TextStyle(color: Colors.white)),
+                onTap: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ),
+            // Cart Item
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: ListTile(
+                leading: const Icon(Icons.shopping_cart, color: Colors.white),
+                title:
+                    const Text('Cart', style: TextStyle(color: Colors.white)),
+                onTap: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ),
+            // Profile Item
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: ListTile(
+                leading: const Icon(Icons.person, color: Colors.white),
+                title: const Text('Profile',
+                    style: TextStyle(color: Colors.white)),
+                onTap: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ),
+
+            // Support Item (at the bottom)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: ListTile(
+                leading: const Icon(Icons.support, color: Colors.white),
+                title: const Text('Support',
+                    style: TextStyle(color: Colors.white)),
+                onTap: () {
+                  // Navigate to Support
+                  Navigator.pop(context);
+                },
+              ),
+            ),
+
+            // Logout Item (at the bottom)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: ListTile(
+                leading: const Icon(Icons.logout, color: Colors.white),
+                title:
+                    const Text('Logout', style: TextStyle(color: Colors.white)),
+                onTap: () {
+                  // Handle Logout action
+                  Navigator.pop(context);
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+      backgroundColor: Colors.grey[300],
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 25),
         child: Column(
@@ -62,7 +157,7 @@ class ForgetPassword extends StatelessWidget {
                                 Colors.black, // Button background color
                           ),
                           child: const Text(
-                            'Log in',
+                            'Submit',
                             style: TextStyle(color: Colors.white, fontSize: 20),
                           ),
                           onPressed: () {
@@ -77,30 +172,17 @@ class ForgetPassword extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Navigator.pushNamed(context, '/signup');
+                      Navigator.pop(context);
                     },
                     child: const Center(
                         child: Text(
-                      'Sign Up',
+                      'Login',
                       style:
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     )),
                   ),
                   const SizedBox(
                     height: 20,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamed(context, '/forgotPassword');
-                    },
-                    child: const Center(
-                      child: Text(
-                        'Forgot your password ? ',
-                        style: TextStyle(
-                          fontSize: 18,
-                        ),
-                      ),
-                    ),
                   ),
                 ],
               ),

@@ -1,4 +1,5 @@
 import 'package:belo/models/cart.dart';
+import 'package:belo/pages/account_page.dart';
 import 'package:belo/pages/forget_password_page.dart';
 
 import 'package:belo/pages/intro_page.dart';
@@ -23,7 +24,8 @@ class MyApp extends StatelessWidget {
         home: const IntroPage(),
         routes: {
           '/forgotPassword': (context) => const ForgetPassword(),
-          '/signup': (context) => const SignupPage()
+          '/signup': (context) => const SignupPage(),
+          '/myaccount': (context) => const AccountPage()
         },
       ),
     );

@@ -2,7 +2,9 @@ import 'package:belo/components/bottom_nav.dart';
 import 'package:belo/pages/account_page.dart';
 import 'package:belo/pages/cart_page.dart';
 import 'package:belo/pages/favorites_page.dart';
+import 'package:belo/pages/forget_password_page.dart';
 import 'package:belo/pages/shop_page.dart';
+import 'package:belo/pages/signup_page.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -25,7 +27,9 @@ class _HomePageState extends State<HomePage> {
     ShopPage(),
     const CartPage(),
     const AccountPage(),
-    const FavoritesPage()
+    const FavoritesPage(),
+    const SignupPage(),
+    const ForgetPassword()
   ];
 
   @override
