@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "850720556478",
+    "project_id": "belo-ea1cf",
+    "storage_bucket": "belo-ea1cf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:850720556478:android:3bf3a5ec8c5e42a7df65ef",
+        "android_client_info": {
+          "package_name": "com.example.belo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7pkSfhoQPwLRk3tMEKkqQhvKYX75ibxY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
