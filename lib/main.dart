@@ -1,14 +1,21 @@
 import 'package:belo/models/cart.dart';
 import 'package:belo/pages/account_page.dart';
 import 'package:belo/pages/forget_password_page.dart';
-
 import 'package:belo/pages/intro_page.dart';
 import 'package:belo/pages/signup_page.dart';
-
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding
+      .ensureInitialized(); // Ensures everything is initialized properly
+  await Firebase.initializeApp(
+    options: const FirebaseOptions(
+     
+    ),
+  );
+
   runApp(const MyApp());
 }
 
