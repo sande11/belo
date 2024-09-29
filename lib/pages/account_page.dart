@@ -1,4 +1,7 @@
+import 'package:belo/logic/auth.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart'; // Ensure you import your AuthService here
+import 'profile.dart'; // Import the Profile page
 
 class AccountPage extends StatelessWidget {
   static String routeName = '/account';
@@ -7,9 +10,21 @@ class AccountPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isLoggedIn = false;
-    false; // Dummy condition to check if the user is logged in
+    // Check if the user is already logged in
+    bool isLoggedIn = FirebaseAuth.instance.currentUser != null;
 
+    // If the user is logged in, navigate to the Profile page
+    if (isLoggedIn) {
+      Future.microtask(() {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const Profile()),
+        );
+      });
+      return const SizedBox(); // Return an empty widget while navigating
+    }
+
+    // If not logged in, display the login form
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Padding(
@@ -24,10 +39,7 @@ class AccountPage extends StatelessWidget {
                 fontSize: 24,
               ),
             ),
-            const SizedBox(
-              height: 20,
-            ),
-            // Check if the user is logged in
+            const SizedBox(height: 20),
             const Padding(
               padding: EdgeInsets.only(left: 18),
               child: Text(
@@ -42,10 +54,11 @@ class AccountPage extends StatelessWidget {
                     padding: EdgeInsets.symmetric(horizontal: 15),
                     child: TextField(
                       decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: 'email',
-                          hintText:
-                              'Enter valid email address as abc@gmail.com'),
+                        border: OutlineInputBorder(),
+                        labelText: 'Email',
+                        hintText: 'Enter valid email address',
+                      ),
+                      keyboardType: TextInputType.emailAddress,
                     ),
                   ),
                   const Padding(
@@ -54,62 +67,66 @@ class AccountPage extends StatelessWidget {
                     child: TextField(
                       obscureText: true,
                       decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: 'Password',
-                          hintText: 'Enter secure password'),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 65,
-                    width: 280,
-                    child: Container(
-                      color: Colors
-                          .grey[300], // Set your desired background color here
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 20.0),
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                Colors.black, // Button background color
-                          ),
-                          child: const Text(
-                            'Log in',
-                            style: TextStyle(color: Colors.white, fontSize: 20),
-                          ),
-                          onPressed: () {
-                            // Add your onPressed logic here
-                          },
-                        ),
+                        border: OutlineInputBorder(),
+                        labelText: 'Password',
+                        hintText: 'Enter secure password',
                       ),
                     ),
                   ),
-                  const SizedBox(
-                    height: 20,
+                  const SizedBox(height: 20),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.black,
+                      padding: const EdgeInsets.symmetric(horizontal: 50),
+                    ),
+                    onPressed: () async {
+                      String email =
+                          'test@example.com'; // Replace with user input
+                      String password =
+                          'password123'; // Replace with user input
+
+                      User? user = await AuthService()
+                          .logUserWithEmailAndPassword(email, password);
+                      if (user != null) {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const Profile()),
+                        );
+                      } else {
+                        // Show an error if login fails
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Login failed')),
+                        );
+                      }
+                    },
+                    child: const Text(
+                      'Log in',
+                      style: TextStyle(color: Colors.white, fontSize: 20),
+                    ),
                   ),
+                  const SizedBox(height: 20),
                   GestureDetector(
                     onTap: () {
                       Navigator.pushNamed(context, '/signup');
                     },
                     child: const Center(
-                        child: Text(
-                      'Sign Up',
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    )),
+                      child: Text(
+                        'Sign Up',
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
+                    ),
                   ),
-                  const SizedBox(
-                    height: 20,
-                  ),
+                  const SizedBox(height: 20),
                   GestureDetector(
                     onTap: () {
                       Navigator.pushNamed(context, '/forgotPassword');
                     },
                     child: const Center(
                       child: Text(
-                        'Forgot your password ? ',
-                        style: TextStyle(
-                          fontSize: 18,
-                        ),
+                        'Forgot your password?',
+                        style: TextStyle(fontSize: 18),
                       ),
                     ),
                   ),
