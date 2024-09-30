@@ -28,7 +28,7 @@ class _HomePageState extends State<HomePage> {
     const CartPage(),
     const AccountPage(),
     const FavoritesPage(),
-    const SignupPage(),
+    const SignUpPage(),
     const ForgetPassword()
   ];
 
