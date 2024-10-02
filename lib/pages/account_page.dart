@@ -34,35 +34,85 @@ class _AccountPageState extends State<AccountPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 20),
+
+                // Profile Card
                 Card(
                   elevation: 5,
                   margin: const EdgeInsets.all(20),
-                  child: Padding(
-                    padding: const EdgeInsets.all(20.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15), // Rounded corners
+                  ),
+                  child: Container(
+                    width: double.infinity, // Full width
+                    height: 400, // Specific height
+                    padding: const EdgeInsets.all(20),
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           'Welcome, ${user.displayName ?? 'User'}',
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
-                            fontSize: 24,
+                            fontSize: 20,
                           ),
                         ),
                         const SizedBox(height: 20),
-                        ElevatedButton(
-                          onPressed: () async {
-                            await FirebaseAuth.instance.signOut();
-                            setState(() {
-                              // Refresh UI after logout
-                            });
+
+                        // Profile section links
+                        ListTile(
+                          leading: const Icon(Icons.history),
+                          title: const Text('Order History'),
+                          onTap: () {
+                            // Navigate to Order History Page
+                            Navigator.pushNamed(context, '/orderHistory');
                           },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.black,
-                            padding: const EdgeInsets.symmetric(horizontal: 50),
-                          ),
-                          child: const Text(
-                            'Logout',
-                            style: TextStyle(color: Colors.white, fontSize: 20),
+                        ),
+                        ListTile(
+                          leading: const Icon(Icons.account_circle),
+                          title: const Text('Account Settings'),
+                          onTap: () {
+                            // Navigate to Account Settings Page
+                            Navigator.pushNamed(context, '/accountSettings');
+                          },
+                        ),
+                        ListTile(
+                          leading: const Icon(Icons.location_on),
+                          title: const Text('Saved Addresses'),
+                          onTap: () {
+                            // Navigate to Saved Addresses Page
+                            Navigator.pushNamed(context, '/savedAddresses');
+                          },
+                        ),
+                        ListTile(
+                          leading: const Icon(Icons.payment),
+                          title: const Text('Payment Methods'),
+                          onTap: () {
+                            // Navigate to Payment Methods Page
+                            Navigator.pushNamed(context, '/paymentMethods');
+                          },
+                        ),
+
+                        const SizedBox(height: 20),
+
+                        // Logout Button
+                        Center(
+                          child: ElevatedButton(
+                            onPressed: () async {
+                              await FirebaseAuth.instance.signOut();
+                              setState(() {
+                                // Refresh UI after logout
+                              });
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.black,
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 50),
+                            ),
+                            child: const Text(
+                              'Logout',
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 20),
+                            ),
                           ),
                         ),
                       ],
@@ -127,49 +177,51 @@ class _AccountPageState extends State<AccountPage> {
                 ),
               ),
               const SizedBox(height: 20),
-              _isLoading
-                  ? const CircularProgressIndicator()
-                  : ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.black,
-                        padding: const EdgeInsets.symmetric(horizontal: 50),
-                      ),
-                      onPressed: () async {
-                        setState(() {
-                          _isLoading = true;
-                        });
+              Center(
+                child: _isLoading
+                    ? const CircularProgressIndicator()
+                    : ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.black,
+                          padding: const EdgeInsets.symmetric(horizontal: 50),
+                        ),
+                        onPressed: () async {
+                          setState(() {
+                            _isLoading = true;
+                          });
 
-                        String email = _emailController.text;
-                        String password = _passwordController.text;
+                          String email = _emailController.text;
+                          String password = _passwordController.text;
 
-                        try {
-                          UserCredential userCredential = await FirebaseAuth
-                              .instance
-                              .signInWithEmailAndPassword(
-                                  email: email, password: password);
+                          try {
+                            UserCredential userCredential = await FirebaseAuth
+                                .instance
+                                .signInWithEmailAndPassword(
+                                    email: email, password: password);
 
-                          if (userCredential.user != null) {
-                            setState(() {
-                              // Refresh UI after login
-                            });
+                            if (userCredential.user != null) {
+                              setState(() {
+                                // Refresh UI after login
+                              });
+                            }
+                          } catch (e) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('Login failed: $e')),
+                            );
                           }
-                        } catch (e) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('Login failed: $e')),
-                          );
-                        }
 
-                        setState(() {
-                          _isLoading = false;
-                        });
-                      },
-                      child: const Center(
-                        child: Text(
-                          'Log in',
-                          style: TextStyle(color: Colors.white, fontSize: 20),
+                          setState(() {
+                            _isLoading = false;
+                          });
+                        },
+                        child: const Center(
+                          child: Text(
+                            'Log in',
+                            style: TextStyle(color: Colors.white, fontSize: 20),
+                          ),
                         ),
                       ),
-                    ),
+              ),
               const SizedBox(height: 20),
               GestureDetector(
                 onTap: () {

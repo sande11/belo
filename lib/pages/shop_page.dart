@@ -1,5 +1,5 @@
 import 'package:belo/components/shoe_tile.dart';
-import 'package:belo/models/shoe.dart';
+import 'package:belo/models/product.dart';
 import 'package:belo/pages/search_page.dart';
 import 'package:flutter/material.dart';
 

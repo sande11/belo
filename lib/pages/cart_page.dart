@@ -1,6 +1,6 @@
 import 'package:belo/components/cart_item.dart';
 import 'package:belo/models/cart.dart';
-import 'package:belo/models/shoe.dart';
+import 'package:belo/models/product.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -40,8 +40,8 @@ class CartPage extends StatelessWidget {
               child: ListView.builder(
                 itemCount: value.getShoeList().length,
                 itemBuilder: (context, index) {
-                  Shoe individualCartItem = value.getShoeList()[index];
-                  return CartItem(shoe: individualCartItem);
+                  Product individualCartItem = value.getShoeList()[index];
+                  return CartItem(product: individualCartItem);
                 },
               ),
             ),

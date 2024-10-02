@@ -1,8 +1,8 @@
-import 'package:belo/models/shoe.dart';
+import 'package:belo/models/product.dart';
 import 'package:flutter/material.dart';
 
 class Cart extends ChangeNotifier {
-  List<Shoe> shoeList = [
+  List<Product> shoeList = [
     Shoe(
       name: 'Air Jordan',
       price: 'K54,000',

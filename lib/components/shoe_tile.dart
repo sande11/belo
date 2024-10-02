@@ -1,10 +1,10 @@
 import 'package:belo/components/purchase_option_form.dart';
-import 'package:belo/models/shoe.dart';
+import 'package:belo/models/product.dart';
 import 'package:flutter/material.dart';
 
 class ShoeTile extends StatelessWidget {
-  Shoe shoe;
-  ShoeTile({super.key, required this.shoe});
+  Product product;
+  ShoeTile({super.key, required this.product});
 
   // Function to display bottom sheet for adding to cart or buying now
   void showPurchaseOptions(BuildContext context) {
@@ -12,7 +12,7 @@ class ShoeTile extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return PurchaseOptionsForm(
-            shoe: shoe); // Pass the shoe details to the form
+            product: product); // Pass the shoe details to the form
       },
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
@@ -32,13 +32,13 @@ class ShoeTile extends StatelessWidget {
         ClipRRect(
             borderRadius: BorderRadius.circular(12),
             child: Image.asset(
-              shoe.imagePath,
+              product.imagePath,
               height: 247,
               width: 280,
               fit: BoxFit.cover,
             )),
         Text(
-          shoe.description,
+          product.description,
           style: TextStyle(color: Colors.grey[600]),
         ),
         Padding(
@@ -51,7 +51,7 @@ class ShoeTile extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    shoe.name,
+                    product.name,
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 20,
@@ -61,7 +61,7 @@ class ShoeTile extends StatelessWidget {
                     height: 5,
                   ),
                   Text(
-                    shoe.price,
+                    product.price,
                     style: const TextStyle(color: Colors.black),
                   )
                 ],

@@ -1,4 +1,4 @@
-import 'package:belo/models/shoe.dart';
+import 'package:belo/models/product.dart';
 import 'package:flutter/material.dart';
 
 class SearchPage extends StatefulWidget {
