@@ -31,8 +31,8 @@ class ShoeTile extends StatelessWidget {
       child: Column(children: [
         ClipRRect(
             borderRadius: BorderRadius.circular(12),
-            child: Image.asset(
-              product.imagePath,
+            child: Image.network(
+              product.images.isNotEmpty ? product.images[0] : '',
               height: 247,
               width: 280,
               fit: BoxFit.cover,
@@ -61,7 +61,7 @@ class ShoeTile extends StatelessWidget {
                     height: 5,
                   ),
                   Text(
-                    product.price,
+                     'K${product.price}',
                     style: const TextStyle(color: Colors.black),
                   )
                 ],

@@ -1,30 +1,51 @@
 import 'package:belo/models/product.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class SearchPage extends StatefulWidget {
-  const SearchPage({super.key, required this.shoeList});
+  const SearchPage({super.key,});
 
-  final List<Shoe> shoeList;
 
   @override
   SearchPageState createState() => SearchPageState();
 }
-
 class SearchPageState extends State<SearchPage> {
   String searchQuery = '';
-  List<Shoe> filteredShoes = [];
+  List<Product> productList = [];
+  List<Product> filteredProducts = [];
 
   @override
   void initState() {
     super.initState();
-    filteredShoes = widget.shoeList;
+    fetchProducts();
+  }
+
+  // Fetch products from Firestore
+  Future<void> fetchProducts() async {
+    CollectionReference products = FirebaseFirestore.instance.collection('products');
+
+    // Get all products
+    QuerySnapshot snapshot = await products.get();
+    
+    setState(() {
+      productList = snapshot.docs.map((doc) {
+        return Product(
+          name: doc['name'],
+          price: doc['price'],
+          description: doc['description'],
+          imageUrls: List<String>.from(doc['images']),
+          availability: doc['availability'], id: '',
+        );
+      }).toList();
+      filteredProducts = productList; // Initially, display all products
+    });
   }
 
   void updateSearchQuery(String query) {
     setState(() {
       searchQuery = query;
-      filteredShoes = widget.shoeList.where((shoe) {
-        return shoe.name.toLowerCase().contains(query.toLowerCase());
+      filteredProducts = productList.where((product) {
+        return product.name.toLowerCase().contains(query.toLowerCase());
       }).toList();
     });
   }
@@ -39,7 +60,6 @@ class SearchPageState extends State<SearchPage> {
       ),
       body: Column(
         children: [
-          // Search input field
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextField(
@@ -48,29 +68,30 @@ class SearchPageState extends State<SearchPage> {
                 hintStyle: TextStyle(color: Colors.grey),
                 prefixIcon: Icon(Icons.search),
               ),
-              onChanged: (query) =>
-                  updateSearchQuery(query), // Update search query
+              onChanged: (query) => updateSearchQuery(query),
             ),
           ),
-          // Search results
+          // Display search results
           Expanded(
-            child: ListView.builder(
-              itemCount: filteredShoes.length,
-              itemBuilder: (context, index) {
-                Shoe shoe = filteredShoes[index];
+            child: filteredProducts.isEmpty
+                ? Center(child: Text('No products found.'))
+                : ListView.builder(
+                    itemCount: filteredProducts.length,
+                    itemBuilder: (context, index) {
+                      Product product = filteredProducts[index];
 
-                return ListTile(
-                  title: Text(shoe.name),
-                  subtitle: Text(shoe.price),
-                  leading: Image.asset(shoe.imagePath,
-                      width: 120, height: 120, fit: BoxFit.cover),
-                  onTap: () {
-                    // Navigate to shoe details or take some action
-                  },
-                );
-              },
-            ),
-          )
+                      return ListTile(
+                        title: Text(product.name),
+                        subtitle: Text(product.price.toString()),
+                        leading: Image.network(product.imageUrls[0],
+                            width: 120, height: 120, fit: BoxFit.cover),
+                        onTap: () {
+                          // Add action for clicking the product
+                        },
+                      );
+                    },
+                  ),
+          ),
         ],
       ),
     );

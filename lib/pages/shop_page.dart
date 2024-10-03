@@ -1,27 +1,15 @@
 import 'package:belo/components/shoe_tile.dart';
 import 'package:belo/models/product.dart';
 import 'package:belo/pages/search_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class ShopPage extends StatelessWidget {
   ShopPage({super.key});
-  // Sample shoe list defined within the page
-  final List<Shoe> shoeList = [
-    Shoe(
-      name: 'Air Jordan',
-      price: 'K54,000',
-      imagePath: 'assets/images/air jordan green.jpg',
-      description: 'Cool shoe',
-    ),
-    Shoe(
-      name: 'Nike Air Max',
-      price: 'K65,000',
-      imagePath: 'assets/images/air jordan red.jpg',
-      description: 'Stylish shoe',
-    ),
-    // Add more shoes...
-  ];
 
+  // referencing to the firestone colection
+  final CollectionReference productCollection =
+      FirebaseFirestore.instance.collection('products');
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -32,7 +20,7 @@ class ShopPage extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => SearchPage(shoeList: shoeList)),
+                  builder: (context) => const SearchPage(product: Product)),
             );
           },
           child: Container(
@@ -88,22 +76,30 @@ class ShopPage extends StatelessWidget {
           height: 10,
         ),
 
-        Expanded(
-            child: ListView.builder(
-                itemCount: 4,
+ Expanded(
+          child: StreamBuilder(
+            stream: productCollection.snapshots(),
+            builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              if (!snapshot.hasData) {
+                return Center(child: CircularProgressIndicator());
+              }
+              // Convert Firestore data to List of Products
+              List<Product> products = snapshot.data!.docs
+                  .map((doc) => Product.fromFirestore(doc))
+                  .toList();
+
+              return ListView.builder(
+                itemCount: products.length,
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) {
-                  Shoe shoe = Shoe(
-                      name: 'Air Jordan',
-                      price: 'K54,000',
-                      imagePath: 'assets/images/air jordan red.jpg',
-                      description: 'cool shoe');
+                  Product product = products[index];
 
-                  return ShoeTile(
-                    // create a shoe
-                    shoe: shoe,
-                  );
-                })),
+                  return ShoeTile(product: product);
+                },
+              );
+            },
+          ),
+        ),
         const Padding(
           padding: EdgeInsets.only(top: 25.0, left: 25, right: 25),
           child: Divider(

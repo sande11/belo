@@ -1,40 +1,92 @@
 class Product {
-  String name;
-  String price;
-  List<String> imagePaths;  // List to hold multiple images
+  String id;  // Firebase document ID (if needed)
+  String availability;
+  String category;
   String description;
-  List<String> sizes;
-  List<String> colors;
-  int quantity;  // Quantity of the item available
-  bool isAvailable;  // Availability status based on quantity
+  List<String> images; // List of image URLs
+  String name;
+  double price;
+  int quantityAvailable;
+  String section;
+  List<Variant> variants;
 
   Product({
+    required this.id,
+    required this.availability,
+    required this.category,
+    required this.description,
+    required this.images,
     required this.name,
     required this.price,
-    required this.imagePaths,  // Updated to hold multiple images
-    required this.description,
-    required this.sizes,
-    required this.colors,
-    required this.quantity,
-    required this.isAvailable,
+    required this.quantityAvailable,
+    required this.section,
+    required this.variants,
   });
 
-  // Factory method to fetch from Firestore
-  factory Product.fromFirestore(Map<String, dynamic> data) {
+  // Factory method to create a Product from Firebase JSON
+  factory Product.fromMap(Map<String, dynamic> map, String id) {
     return Product(
-      name: data['name'],
-      price: data['price'],
-      imagePaths: List<String>.from(data['imagePaths']),  // List of images
-      description: data['description'],
-      sizes: List<String>.from(data['sizes']),
-      colors: List<String>.from(data['colors']),
-      quantity: data['quantity'],
-      isAvailable: data['quantity'] > 0,  // Availability based on quantity
+      id: id,
+      availability: map['availability'],
+      category: map['category'],
+      description: map['description'],
+      images: List<String>.from(map['images']),
+      name: map['name'],
+      price: map['price'].toDouble(),
+      quantityAvailable: map['quantityAvailable'],
+      section: map['section'],
+      variants: (map['variants'] as List)
+          .map((variantMap) => Variant.fromMap(variantMap))
+          .toList(),
     );
   }
 
-  // Method to check availability
-  void updateAvailability() {
-    isAvailable = quantity > 0;
+  // Convert a Product back to JSON
+  Map<String, dynamic> toMap() {
+    return {
+      'availability': availability,
+      'category': category,
+      'description': description,
+      'images': images,
+      'name': name,
+      'price': price,
+      'quantityAvailable': quantityAvailable,
+      'section': section,
+      'variants': variants.map((v) => v.toMap()).toList(),
+    };
+  }
+}
+
+class Variant {
+  String color;
+  int quantity;
+  String size;
+  List<String> images;  // Variant-specific images
+
+  Variant({
+    required this.color,
+    required this.quantity,
+    required this.size,
+    required this.images,
+  });
+
+  // Factory method to create Variant from Firebase JSON
+  factory Variant.fromMap(Map<String, dynamic> map) {
+    return Variant(
+      color: map['color'],
+      quantity: map['quantity'],
+      size: map['size'],
+      images: List<String>.from(map['images'] ?? []), // If images exist
+    );
+  }
+
+  // Convert a Variant back to JSON
+  Map<String, dynamic> toMap() {
+    return {
+      'color': color,
+      'quantity': quantity,
+      'size': size,
+      'images': images,
+    };
   }
 }
