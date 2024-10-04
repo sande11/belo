@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class SearchPage extends StatefulWidget {
-  const SearchPage({super.key,});
+  const SearchPage({super.key, required Type product,});
 
 
   @override
@@ -27,18 +27,17 @@ class SearchPageState extends State<SearchPage> {
     // Get all products
     QuerySnapshot snapshot = await products.get();
     
-    setState(() {
-      productList = snapshot.docs.map((doc) {
-        return Product(
-          name: doc['name'],
-          price: doc['price'],
-          description: doc['description'],
-          imageUrls: List<String>.from(doc['images']),
-          availability: doc['availability'], id: '',
-        );
-      }).toList();
-      filteredProducts = productList; // Initially, display all products
-    });
+    // setState(() {
+    //   productList = snapshot.docs.map((doc) {
+    //     return Product(
+    //       name: doc['name'],
+    //       price: doc['price'],
+    //       description: doc['description'],
+    //       images: List<String>.from(doc['images']),
+    //     );
+    //   }).toList();
+    //   filteredProducts = productList; // Initially, display all products
+    // });
   }
 
   void updateSearchQuery(String query) {
@@ -74,7 +73,7 @@ class SearchPageState extends State<SearchPage> {
           // Display search results
           Expanded(
             child: filteredProducts.isEmpty
-                ? Center(child: Text('No products found.'))
+                ? const Center(child: Text('No products found.'))
                 : ListView.builder(
                     itemCount: filteredProducts.length,
                     itemBuilder: (context, index) {
@@ -83,7 +82,7 @@ class SearchPageState extends State<SearchPage> {
                       return ListTile(
                         title: Text(product.name),
                         subtitle: Text(product.price.toString()),
-                        leading: Image.network(product.imageUrls[0],
+                        leading: Image.network(product.images[0],
                             width: 120, height: 120, fit: BoxFit.cover),
                         onTap: () {
                           // Add action for clicking the product

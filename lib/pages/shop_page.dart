@@ -76,17 +76,18 @@ class ShopPage extends StatelessWidget {
           height: 10,
         ),
 
- Expanded(
+        Expanded(
           child: StreamBuilder(
             stream: productCollection.snapshots(),
             builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (!snapshot.hasData) {
-                return Center(child: CircularProgressIndicator());
+                return const Center(child: CircularProgressIndicator());
               }
               // Convert Firestore data to List of Products
-              List<Product> products = snapshot.data!.docs
-                  .map((doc) => Product.fromFirestore(doc))
-                  .toList();
+              List<Product> products = snapshot.data!.docs.map((doc) {
+                return Product.fromMap(
+                    doc.data() as Map<String, dynamic>, doc.id);
+              }).toList();
 
               return ListView.builder(
                 itemCount: products.length,

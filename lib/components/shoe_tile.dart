@@ -3,8 +3,8 @@ import 'package:belo/models/product.dart';
 import 'package:flutter/material.dart';
 
 class ShoeTile extends StatelessWidget {
-  Product product;
-  ShoeTile({super.key, required this.product});
+  final Product product;
+  const ShoeTile({super.key, required this.product});
 
   // Function to display bottom sheet for adding to cart or buying now
   void showPurchaseOptions(BuildContext context) {

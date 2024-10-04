@@ -14,11 +14,15 @@ class Cart extends ChangeNotifier {
 
     shoeList = snapshot.docs.map((doc) {
       return Product(
+        id: doc.id,
+        category: doc['category'],
+        quantityAvailable: doc['quantityAvailable'],
+        section: doc['section'],  
         name: doc['name'],
         price: doc['price'],
         description: doc['description'],
-        imageUrls: List<String>.from(doc['images']),
-        availability: doc['availability'],
+        images: List<String>.from(doc['images']),
+        availability: doc['availability'], variants: [],
       );
     }).toList();
     notifyListeners();

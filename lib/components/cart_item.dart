@@ -32,7 +32,7 @@ class _CartItemState extends State<CartItem> {
           children: [
             const Checkbox(value: false, onChanged: null),
             Image.asset(
-              widget.product.imagePath,
+              widget.product.images as String,
               height: 100,
               width: 60,
               fit: BoxFit.cover,
@@ -40,7 +40,7 @@ class _CartItemState extends State<CartItem> {
           ],
         ),
         title: Text(widget.product.name), // Correctly access the shoe name
-        subtitle: Text(widget.product.price), // Correctly access the shoe price
+        subtitle: Text(widget.product.price as String), // Correctly access the shoe price
         trailing: IconButton(
           icon: const Icon(Icons.delete),
           onPressed: removeItemFromCart,

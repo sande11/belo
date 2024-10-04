@@ -40,6 +40,9 @@ class _HomePageState extends State<HomePage> {
         onTabChange: (index) => navigateBottomBar(index),
       ),
       appBar: AppBar(
+        title: const Text('Belo',
+            style:
+                TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: Builder(builder: (context) {

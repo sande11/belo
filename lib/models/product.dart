@@ -1,5 +1,5 @@
 class Product {
-  String id;  // Firebase document ID (if needed)
+  String id; // Firebase document ID (if needed)
   String availability;
   String category;
   String description;
@@ -28,7 +28,7 @@ class Product {
     return Product(
       id: id,
       availability: map['availability'],
-      category: map['category'],
+      category: map['category'] ?? 'unkwon',
       description: map['description'],
       images: List<String>.from(map['images']),
       name: map['name'],
@@ -61,7 +61,7 @@ class Variant {
   String color;
   int quantity;
   String size;
-  List<String> images;  // Variant-specific images
+  List<String> images; // Variant-specific images
 
   Variant({
     required this.color,
@@ -75,7 +75,7 @@ class Variant {
     return Variant(
       color: map['color'],
       quantity: map['quantity'],
-      size: map['size'],
+      size: map['size'] ?? 'Unknown Size',
       images: List<String>.from(map['images'] ?? []), // If images exist
     );
   }
