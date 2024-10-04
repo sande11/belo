@@ -8,7 +8,8 @@ class Cart extends ChangeNotifier {
 
   // Fetch products from Firestore
   Future<void> fetchProducts() async {
-    CollectionReference products = FirebaseFirestore.instance.collection('products');
+    CollectionReference products =
+        FirebaseFirestore.instance.collection('products');
 
     QuerySnapshot snapshot = await products.get();
 
@@ -17,12 +18,13 @@ class Cart extends ChangeNotifier {
         id: doc.id,
         category: doc['category'],
         quantityAvailable: doc['quantityAvailable'],
-        section: doc['section'],  
+        section: doc['section'],
         name: doc['name'],
         price: doc['price'],
         description: doc['description'],
         images: List<String>.from(doc['images']),
-        availability: doc['availability'], variants: [],
+        availability: doc['availability'],
+        variants: [], // Populate this with your variants list if needed
       );
     }).toList();
     notifyListeners();
@@ -37,7 +39,7 @@ class Cart extends ChangeNotifier {
   }
 
   // Add item to cart
-  void addItemToCart(Product product, String s, String s) {
+  void addItemToCart(Product product, String size, String color) {
     userCart.add(product);
     notifyListeners();
   }
