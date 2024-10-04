@@ -37,7 +37,7 @@ class Cart extends ChangeNotifier {
   }
 
   // Add item to cart
-  void addItemToCart(Product product) {
+  void addItemToCart(Product product, String s, String s) {
     userCart.add(product);
     notifyListeners();
   }

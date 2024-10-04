@@ -41,9 +41,12 @@ class _HomePageState extends State<HomePage> {
       ),
       appBar: AppBar(
         title: const Text('Belo',
-            style:
-                TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+            style: TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+                fontSize: 28)),
         backgroundColor: Colors.transparent,
+        titleSpacing: -10,
         elevation: 0,
         leading: Builder(builder: (context) {
           return IconButton(

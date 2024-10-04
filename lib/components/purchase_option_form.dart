@@ -15,6 +15,33 @@ class PurchaseOptionsForm extends StatefulWidget {
 class _PurchaseOptionsFormState extends State<PurchaseOptionsForm> {
   String? selectedSize;
   String? selectedColor;
+  List<String> availableSizes = [];
+  List<String> availableColors = [];
+  String? selectedImage;
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize the first variant's sizes and colors
+    if (widget.product.variants.isNotEmpty) {
+      availableSizes = widget.product.variants.map((v) => v.size).toSet().toList();
+      availableColors = widget.product.variants.map((v) => v.color).toSet().toList();
+      // Display the image of the first variant
+      selectedImage = widget.product.images.isNotEmpty ? widget.product.images[0] : '';
+    }
+  }
+
+  void updateSelectedImage() {
+    // Find the first variant matching the selected size and color and update the image
+    for (var variant in widget.product.variants) {
+      if (variant.size == selectedSize && variant.color == selectedColor && variant.images.isNotEmpty) {
+        setState(() {
+          selectedImage = variant.images[0]; // Choose the first image for now
+        });
+        break;
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +55,17 @@ class _PurchaseOptionsFormState extends State<PurchaseOptionsForm> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
+          // Display product image
+          ClipRRect(
+            borderRadius: BorderRadius.circular(12),
+            child: Image.network(
+              selectedImage ?? '', // Selected image of the product or variant
+              height: 150,
+              width: 150,
+              fit: BoxFit.cover,
+            ),
+          ),
+          const SizedBox(height: 10),
           const Text(
             'Choose Size & Color',
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
@@ -38,12 +76,13 @@ class _PurchaseOptionsFormState extends State<PurchaseOptionsForm> {
           DropdownButtonFormField<String>(
             decoration: const InputDecoration(labelText: 'Select Size'),
             value: selectedSize,
-            items: ['7', '8', '9', '10', '11']
+            items: availableSizes
                 .map((size) => DropdownMenuItem(value: size, child: Text(size)))
                 .toList(),
             onChanged: (value) {
               setState(() {
                 selectedSize = value;
+                updateSelectedImage(); // Update the image based on selection
               });
             },
           ),
@@ -53,13 +92,13 @@ class _PurchaseOptionsFormState extends State<PurchaseOptionsForm> {
           DropdownButtonFormField<String>(
             decoration: const InputDecoration(labelText: 'Select Color'),
             value: selectedColor,
-            items: ['Red', 'Black', 'Blue', 'White']
-                .map((color) =>
-                    DropdownMenuItem(value: color, child: Text(color)))
+            items: availableColors
+                .map((color) => DropdownMenuItem(value: color, child: Text(color)))
                 .toList(),
             onChanged: (value) {
               setState(() {
                 selectedColor = value;
+                updateSelectedImage(); // Update the image based on selection
               });
             },
           ),
@@ -71,16 +110,14 @@ class _PurchaseOptionsFormState extends State<PurchaseOptionsForm> {
             children: [
               ElevatedButton(
                 onPressed: () {
-                  // Ensure both size and color are selected
                   if (selectedSize != null && selectedColor != null) {
                     Provider.of<Cart>(context, listen: false).addItemToCart(
-                      widget.product, 
-                      // selectedSize!, 
-                      // selectedColor!,
+                      widget.product,
+                      selectedSize!,
+                      selectedColor!,
                     );
-                    Navigator.pop(context); // Close the modal after adding to cart
+                    Navigator.pop(context);
                   } else {
-                    // Show an alert if the user hasn't selected size and color
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
                         content: Text('Please select both size and color'),
@@ -89,19 +126,25 @@ class _PurchaseOptionsFormState extends State<PurchaseOptionsForm> {
                   }
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
+                  backgroundColor: Colors.black,
                 ),
-                child: const Text('Add to Cart'),
+                child: const Text(
+                  'Add to Cart',
+                  style: TextStyle(color: Colors.white),
+                ),
               ),
               ElevatedButton(
                 onPressed: () {
-                  // Buy now logic
-                  Navigator.pop(context); // Close the modal after action
+                  // Implement Buy Now functionality
+                  Navigator.pop(context);
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.green,
+                  backgroundColor: Colors.black,
                 ),
-                child: const Text('Buy Now'),
+                child: const Text(
+                  'Buy Now',
+                  style: TextStyle(color: Colors.white),
+                ),
               ),
             ],
           ),
