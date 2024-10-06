@@ -1,52 +1,30 @@
-import 'package:belo/models/product.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:hive/hive.dart';
+import 'product.dart';
 import 'package:flutter/material.dart';
 
-class Cart extends ChangeNotifier {
-  List<Product> shoeList = [];
-  List<Product> userCart = [];
+class Cart with ChangeNotifier {
+  final Box<Product> cartBox = Hive.box<Product>('cartBox');
 
-  // Fetch products from Firestore
-  Future<void> fetchProducts() async {
-    CollectionReference products =
-        FirebaseFirestore.instance.collection('products');
-
-    QuerySnapshot snapshot = await products.get();
-
-    shoeList = snapshot.docs.map((doc) {
-      return Product(
-        id: doc.id,
-        category: doc['category'],
-        quantityAvailable: doc['quantityAvailable'],
-        section: doc['section'],
-        name: doc['name'],
-        price: doc['price'],
-        description: doc['description'],
-        images: List<String>.from(doc['images']),
-        availability: doc['availability'],
-        variants: [], // Populate this with your variants list if needed
-      );
-    }).toList();
-    notifyListeners();
-  }
-
-  List<Product> getShoeList() {
-    return shoeList;
-  }
-
+  // Get cart items
   List<Product> getCartList() {
-    return userCart;
+    return cartBox.values.toList();
   }
 
   // Add item to cart
-  void addItemToCart(Product product, String size, String color) {
-    userCart.add(product);
+  void addItemToCart(Product product) {
+    cartBox.put(product.id, product); // Save the product to the box
     notifyListeners();
   }
 
   // Remove item from cart
   void removeItemFromCart(Product product) {
-    userCart.remove(product);
+    cartBox.delete(product.id); // Remove the product from the box
+    notifyListeners();
+  }
+
+  // Clear the cart
+  void clearCart() {
+    cartBox.clear();
     notifyListeners();
   }
 }

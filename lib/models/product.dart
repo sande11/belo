@@ -1,14 +1,39 @@
+import 'package:hive/hive.dart';
+
+part 'product.g.dart'; // Required for the generated code
+
+@HiveType(typeId: 0)
 class Product {
-  String id; // Firebase document ID (if needed)
+  @HiveField(0)
+  String id;
+
+  @HiveField(1)
   String availability;
+
+  @HiveField(2)
   String category;
+
+  @HiveField(3)
   String description;
-  List<String> images; // List of image URLs
+
+  @HiveField(4)
+  List<String> images;
+
+  @HiveField(5)
   String name;
+
+  @HiveField(6)
   double price;
+
+  @HiveField(7)
   int quantityAvailable;
+
+  @HiveField(8)
   String section;
+
+  @HiveField(9)
   List<Variant> variants;
+
 
   Product({
     required this.id,
@@ -57,11 +82,19 @@ class Product {
   }
 }
 
+@HiveType(typeId: 1)
 class Variant {
+  @HiveField(0)
   String color;
+
+  @HiveField(1)
   int quantity;
+
+  @HiveField(2)
   String size;
-  List<String> images; // Variant-specific images
+
+  @HiveField(3)
+  List<String> images;
 
   Variant({
     required this.color,
