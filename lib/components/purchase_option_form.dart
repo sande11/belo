@@ -24,19 +24,23 @@ class _PurchaseOptionsFormState extends State<PurchaseOptionsForm> {
     super.initState();
     // Initialize the first variant's sizes and colors
     if (widget.product.variants.isNotEmpty) {
-      availableSizes = widget.product.variants.map((v) => v.size).toSet().toList();
-      availableColors = widget.product.variants.map((v) => v.color).toSet().toList();
+      availableSizes =
+          widget.product.variants.map((v) => v.size).toSet().toList();
+      availableColors =
+          widget.product.variants.map((v) => v.color).toSet().toList();
       // Display the image of the first variant
-      selectedImage = widget.product.images.isNotEmpty ? widget.product.images[0] : '';
+      selectedImage =
+          widget.product.images.isNotEmpty ? widget.product.images[0] : '';
     }
   }
 
   void updateSelectedImage() {
-    // Find the first variant matching the selected size and color and update the image
     for (var variant in widget.product.variants) {
-      if (variant.size == selectedSize && variant.color == selectedColor && variant.images.isNotEmpty) {
+      if (variant.size == selectedSize &&
+          variant.color == selectedColor &&
+          variant.images.isNotEmpty) {
         setState(() {
-          selectedImage = variant.images[0]; // Choose the first image for now
+          selectedImage = variant.images[0];
         });
         break;
       }
@@ -59,9 +63,9 @@ class _PurchaseOptionsFormState extends State<PurchaseOptionsForm> {
           ClipRRect(
             borderRadius: BorderRadius.circular(12),
             child: Image.network(
-              selectedImage ?? '', // Selected image of the product or variant
-              height: 150,
-              width: 150,
+              selectedImage ?? '', 
+              height: 250,
+              width: 300,
               fit: BoxFit.cover,
             ),
           ),
@@ -93,7 +97,8 @@ class _PurchaseOptionsFormState extends State<PurchaseOptionsForm> {
             decoration: const InputDecoration(labelText: 'Select Color'),
             value: selectedColor,
             items: availableColors
-                .map((color) => DropdownMenuItem(value: color, child: Text(color)))
+                .map((color) =>
+                    DropdownMenuItem(value: color, child: Text(color)))
                 .toList(),
             onChanged: (value) {
               setState(() {
