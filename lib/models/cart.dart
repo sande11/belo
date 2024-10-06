@@ -1,4 +1,5 @@
 import 'package:hive/hive.dart';
+import 'package:provider/provider.dart';
 import 'product.dart';
 import 'package:flutter/material.dart';
 
@@ -27,4 +28,38 @@ class Cart with ChangeNotifier {
     cartBox.clear();
     notifyListeners();
   }
+}
+
+@override
+Widget build(BuildContext context) {
+  // Retrieve the cart items
+  var cartItems = Provider.of<Cart>(context).getCartList();
+
+  return Scaffold(
+    appBar: AppBar(
+      title: const Text('Your Cart'),
+    ),
+    body: cartItems.isEmpty
+        ? const Center(
+            child: Text("Your cart is empty"),
+          )
+        : ListView.builder(
+            itemCount: cartItems.length,
+            itemBuilder: (context, index) {
+              Product product = cartItems[index];
+              return ListTile(
+                title: Text(product.name),
+                subtitle: Text("\$${product.price.toStringAsFixed(2)}"),
+                trailing: IconButton(
+                  icon: const Icon(Icons.delete),
+                  onPressed: () {
+                    // Remove item from the cart
+                    Provider.of<Cart>(context, listen: false)
+                        .removeItemFromCart(product);
+                  },
+                ),
+              );
+            },
+          ),
+  );
 }
