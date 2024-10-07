@@ -50,4 +50,6 @@ void removeFromCart(String id, String size, String color) {
   _cartBox.delete(key);
   notifyListeners();
 }
+
+  void removeItemFromCart(Product product) {}
 }

@@ -1,7 +1,7 @@
 
 import 'package:hive/hive.dart';
 
-part 'Product.g.dart'; // Required for the generated code
+part 'product.g.dart'; // Required for the generated code
 
 @HiveType(typeId: 0)
 class Product {
