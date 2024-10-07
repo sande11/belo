@@ -10,37 +10,35 @@ class CartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<Cart>(
-      builder: (context, value, child) => Padding(
+      builder: (context, cart, child) => Padding(
         padding: const EdgeInsets.symmetric(horizontal: 25),
         child: Column(
-          crossAxisAlignment:
-              CrossAxisAlignment.start, // Aligns children to the start
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Align(
-              alignment: Alignment
-                  .centerLeft, // Aligns text to the start of the screen
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(
-                    'My Cart',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
-                  ),
-                  Text(
-                    'Total: K0',
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold, color: Colors.blue),
-                  )
-                ],
+              alignment: Alignment.centerLeft,
+              child: Text(
+                'My Cart',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+              ),
+            ),
+            const SizedBox(height: 10),
+            Align(
+              alignment: Alignment.centerRight,
+              child: Text(
+                'Total: K${cart.getTotalPrice()}',
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blue,
+                ),
               ),
             ),
             const SizedBox(height: 10),
             Expanded(
               child: ListView.builder(
-                itemCount: value.getShoeList().length,
+                itemCount: cart.getCartItems().length,
                 itemBuilder: (context, index) {
-                  Product individualCartItem = value.getShoeList()[index];
+                  Product individualCartItem = cart.getCartItems()[index];
                   return CartItem(product: individualCartItem);
                 },
               ),

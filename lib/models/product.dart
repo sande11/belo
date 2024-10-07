@@ -1,8 +1,7 @@
-// ignore_for_file: file_names
 
 import 'package:hive/hive.dart';
 
-part 'product.g.dart'; // Required for the generated code
+part 'Product.g.dart'; // Required for the generated code
 
 @HiveType(typeId: 0)
 class Product {
@@ -35,7 +34,11 @@ class Product {
 
   @HiveField(9)
   List<Variant> variants;
+  @HiveField(10)
+  String? selectedSize;
 
+  @HiveField(11)
+  String? selectedColor;
 
   Product({
     required this.id,
@@ -48,6 +51,8 @@ class Product {
     required this.quantityAvailable,
     required this.section,
     required this.variants,
+    this.selectedSize,
+    this.selectedColor,
   });
 
   // Factory method to create a Product from Firebase JSON

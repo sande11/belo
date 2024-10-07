@@ -1,65 +1,53 @@
-import 'package:hive/hive.dart';
-import 'package:provider/provider.dart';
-import 'product.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'product.dart';
 
 class Cart with ChangeNotifier {
-  final Box<Product> cartBox = Hive.box<Product>('cartBox');
+  // Hive box for storing cart items
+  final Box<Product> _cartBox = Hive.box<Product>('cartBox');
 
-  // Get cart items
-  List<Product> getCartList() {
-    return cartBox.values.toList();
-  }
+ // Add product with size and color to the cart
+void addItemToCart(Product product, String size, String color) {
+  // Create a new Product object with the selected size and color
+  Product newProduct = Product(
+    id: product.id,
+    availability: product.availability,
+    category: product.category,
+    description: product.description,
+    images: product.images,
+    name: product.name,
+    price: product.price,
+    quantityAvailable: product.quantityAvailable,
+    section: product.section,
+    variants: product.variants,
+    selectedSize: size,
+    selectedColor: color,
+  );
 
-  // Add item to cart
-  void addItemToCart(Product product) {
-    cartBox.put(product.id, product); // Save the product to the box
-    notifyListeners();
-  }
+  // Add the new product to Hive
+  var size_;
+  String key = '${product.id}_$size_$color';
+  _cartBox.put(key, newProduct);
 
-  // Remove item from cart
-  void removeItemFromCart(Product product) {
-    cartBox.delete(product.id); // Remove the product from the box
-    notifyListeners();
-  }
-
-  // Clear the cart
-  void clearCart() {
-    cartBox.clear();
-    notifyListeners();
-  }
+  notifyListeners(); // Notify listeners that the cart has changed
 }
 
-@override
-Widget build(BuildContext context) {
-  // Retrieve the cart items
-  var cartItems = Provider.of<Cart>(context).getCartList();
+  // Get list of products in the cart
+  List<Product> getCartItems() {
+    return _cartBox.values.toList();
+  }
 
-  return Scaffold(
-    appBar: AppBar(
-      title: const Text('Your Cart'),
-    ),
-    body: cartItems.isEmpty
-        ? const Center(
-            child: Text("Your cart is empty"),
-          )
-        : ListView.builder(
-            itemCount: cartItems.length,
-            itemBuilder: (context, index) {
-              Product product = cartItems[index];
-              return ListTile(
-                title: Text(product.name),
-                subtitle: Text("\$${product.price.toStringAsFixed(2)}"),
-                trailing: IconButton(
-                  icon: const Icon(Icons.delete),
-                  onPressed: () {
-                    // Remove item from the cart
-                    Provider.of<Cart>(context, listen: false)
-                        .removeItemFromCart(product);
-                  },
-                ),
-              );
-            },
-          ),
-  );
+
+  // Get total price
+  double getTotalPrice() {
+    return _cartBox.values.fold(0, (total, product) => total + product.price);
+  }
+
+  // Remove product from the cart
+void removeFromCart(String id, String size, String color) {
+  var size_;
+  String key = '${id}_$size_$color'; 
+  _cartBox.delete(key);
+  notifyListeners();
+}
 }

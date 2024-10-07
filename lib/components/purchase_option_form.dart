@@ -35,6 +35,8 @@ class _PurchaseOptionsFormState extends State<PurchaseOptionsForm> {
   }
 
   void updateSelectedImage() {
+    if (selectedSize == null || selectedColor == null) return;
+
     for (var variant in widget.product.variants) {
       if (variant.size == selectedSize &&
           variant.color == selectedColor &&
@@ -63,7 +65,7 @@ class _PurchaseOptionsFormState extends State<PurchaseOptionsForm> {
           ClipRRect(
             borderRadius: BorderRadius.circular(12),
             child: Image.network(
-              selectedImage ?? '', 
+              selectedImage ?? '',
               height: 250,
               width: 300,
               fit: BoxFit.cover,
@@ -122,6 +124,11 @@ class _PurchaseOptionsFormState extends State<PurchaseOptionsForm> {
                       selectedColor!,
                     );
                     Navigator.pop(context);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                          content:
+                              Text('${widget.product.name} added to cart!')),
+                    );
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
