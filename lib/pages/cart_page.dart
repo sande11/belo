@@ -4,8 +4,27 @@ import 'package:belo/models/product.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class CartPage extends StatelessWidget {
+class CartPage extends StatefulWidget {
   const CartPage({super.key});
+
+  @override
+  State<CartPage> createState() => _CartPageState();
+}
+
+class _CartPageState extends State<CartPage> {
+  // Track selected items
+  List<Product> selectedItems = [];
+
+  // Callback to handle selection
+  void handleSelection(bool isSelected, Product product) {
+    setState(() {
+      if (isSelected) {
+        selectedItems.add(product);
+      } else {
+        selectedItems.remove(product);
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,10 +58,34 @@ class CartPage extends StatelessWidget {
                 itemCount: cart.getCartItems().length,
                 itemBuilder: (context, index) {
                   Product individualCartItem = cart.getCartItems()[index];
-                  return CartItem(product: individualCartItem);
+                  bool isSelected = selectedItems.contains(individualCartItem);
+                  return CartItem(
+                    product: individualCartItem,
+                    isSelected: isSelected,
+                    onSelected: handleSelection, // Pass the selection handler
+                  );
                 },
               ),
             ),
+            // Conditionally show checkout button if any items are selected
+            if (selectedItems.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 20),
+                child: Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: Colors.grey[900],
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  padding: const EdgeInsets.all(25),
+                  child: const Center(
+                    child: Text(
+                      'Check Out',
+                      style: TextStyle(color: Colors.white, fontSize: 16),
+                    ),
+                  ),
+                ),
+              ),
           ],
         ),
       ),

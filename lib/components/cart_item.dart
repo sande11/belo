@@ -4,18 +4,30 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class CartItem extends StatefulWidget {
-  final Product product; // Mark this as final and required
-  const CartItem({super.key, required this.product});
+  final Product product;
+  final Function(bool, Product)
+      onSelected; // Callback to notify when an item is selected or unselected
+  final bool isSelected; // Track if the item is selected
+
+  const CartItem({
+    super.key,
+    required this.product,
+    required this.onSelected,
+    required this.isSelected,
+  });
 
   @override
   State<CartItem> createState() => _CartItemState();
 }
 
 class _CartItemState extends State<CartItem> {
-  // Method to remove an item from the cart
-  void removeItemFromCart() {
-    Provider.of<Cart>(context, listen: false)
-        .removeItemFromCart(widget.product);
+  bool isChecked = false;
+
+  @override
+  void initState() {
+    super.initState();
+    isChecked =
+        widget.isSelected; // Initialize with the provided selection state
   }
 
   @override
@@ -27,31 +39,39 @@ class _CartItemState extends State<CartItem> {
       ),
       margin: const EdgeInsets.only(bottom: 10),
       child: ListTile(
-        leading: SizedBox(
-          width: 100, // Set a fixed width for the leading widget
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Checkbox(value: false, onChanged: null),
-              Expanded(
-                // Use Expanded to prevent overflow
-                child: Image.asset(
-                  widget
-                      .product.images[0], // Access the first image in the list
-                  height: 100,
-                  width: 60,
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ],
-          ),
+        leading: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Checkbox(
+              value: isChecked,
+              onChanged: (bool? value) {
+                setState(() {
+                  isChecked = value ?? false;
+                });
+                widget.onSelected(isChecked,
+                    widget.product); // Notify parent of selection change
+              },
+              activeColor:
+                  Colors.blue, // Color of the checkbox when it's active
+              checkColor:
+                  Colors.black, // Color of the checkmark inside the checkbox
+            ),
+            Image.network(
+              widget.product.images[0],
+              height: 100,
+              width: 60,
+              fit: BoxFit.cover,
+            ),
+          ],
         ),
-        title: Text(widget.product.name), // Correctly access the product name
-        subtitle: Text(
-            '\$${widget.product.price.toStringAsFixed(2)}'), // Format price
+        title: Text(widget.product.name),
+        subtitle: Text('\$${widget.product.price.toStringAsFixed(2)}'),
         trailing: IconButton(
           icon: const Icon(Icons.delete),
-          onPressed: removeItemFromCart,
+          onPressed: () {
+            Provider.of<Cart>(context, listen: false)
+                .removeItemFromCart(widget.product);
+          },
         ),
       ),
     );
