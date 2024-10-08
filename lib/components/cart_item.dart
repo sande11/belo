@@ -69,8 +69,17 @@ class _CartItemState extends State<CartItem> {
         trailing: IconButton(
           icon: const Icon(Icons.delete),
           onPressed: () {
-            Provider.of<Cart>(context, listen: false)
-                .removeItemFromCart(widget.product);
+            if (widget.product.selectedSize != null &&
+                widget.product.selectedColor != null) {
+              Provider.of<Cart>(context, listen: false).removeItemFromCart(
+                widget.product,
+                widget.product.selectedSize!, // Using non-null assertion (!)
+                widget.product.selectedColor!,
+              );
+            } else {
+              // Handle the case where selectedSize or selectedColor is null
+              print('Size or Color is null');
+            }
           },
         ),
       ),
