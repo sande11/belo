@@ -14,7 +14,8 @@ class CartItem extends StatefulWidget {
 class _CartItemState extends State<CartItem> {
   // Method to remove an item from the cart
   void removeItemFromCart() {
-    Provider.of<Cart>(context, listen: false).removeItemFromCart(widget.product);
+    Provider.of<Cart>(context, listen: false)
+        .removeItemFromCart(widget.product);
   }
 
   @override
@@ -26,21 +27,28 @@ class _CartItemState extends State<CartItem> {
       ),
       margin: const EdgeInsets.only(bottom: 10),
       child: ListTile(
-        leading: Row(
-          mainAxisSize:
-              MainAxisSize.min, // Minimize space between checkbox and image
-          children: [
-            const Checkbox(value: false, onChanged: null),
-            Image.asset(
-              widget.product.images as String,
-              height: 100,
-              width: 60,
-              fit: BoxFit.cover,
-            ),
-          ],
+        leading: SizedBox(
+          width: 100, // Set a fixed width for the leading widget
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Checkbox(value: false, onChanged: null),
+              Expanded(
+                // Use Expanded to prevent overflow
+                child: Image.asset(
+                  widget
+                      .product.images[0], // Access the first image in the list
+                  height: 100,
+                  width: 60,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ],
+          ),
         ),
-        title: Text(widget.product.name), // Correctly access the shoe name
-        subtitle: Text(widget.product.price as String), // Correctly access the shoe price
+        title: Text(widget.product.name), // Correctly access the product name
+        subtitle: Text(
+            '\$${widget.product.price.toStringAsFixed(2)}'), // Format price
         trailing: IconButton(
           icon: const Icon(Icons.delete),
           onPressed: removeItemFromCart,
