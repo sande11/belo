@@ -106,7 +106,7 @@ class ShopPage extends StatelessWidget {
           child: Divider(
             color: Colors.white,
           ),
-        )
+        ),
       ],
     );
   }

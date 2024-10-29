@@ -31,7 +31,7 @@ class Cart with ChangeNotifier {
     String key = '${product.id}_$size_$color';
     _cartBox.put(key, newProduct);
 
-    notifyListeners(); // Notify listeners that the cart has changed
+    notifyListeners(); 
   }
 
   // Get list of products in the cart
@@ -48,7 +48,7 @@ class Cart with ChangeNotifier {
     // Construct the unique key using product ID, size, and color
     String key = '${product.id}_$size_$color';
 
-    print('Removing item with key: $key'); // Debugging
+    print('Removing item with key: $key'); 
 
     // Remove the item directly from the cart using the key
     _cartBox.delete(key);
