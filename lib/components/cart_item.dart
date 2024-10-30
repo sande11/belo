@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:belo/models/cart.dart';
 import 'package:belo/models/product.dart';
 import 'package:flutter/material.dart';
@@ -65,7 +67,7 @@ class _CartItemState extends State<CartItem> {
           ],
         ),
         title: Text(widget.product.name),
-        subtitle: Text('\$${widget.product.price.toStringAsFixed(2)}'),
+        subtitle: Text('K${widget.product.price.toStringAsFixed(2)}'),
         trailing: IconButton(
           icon: const Icon(Icons.delete),
           onPressed: () {
@@ -78,7 +80,7 @@ class _CartItemState extends State<CartItem> {
               );
             } else {
               // Handle the case where selectedSize or selectedColor is null
-              print('Size or Color is null');
+              log('Size or Color is null');
             }
           },
         ),
