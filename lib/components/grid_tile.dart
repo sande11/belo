@@ -28,19 +28,26 @@ class GridTiles extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
       ),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisSize:
+            MainAxisSize.min, // Ensures the Column takes only required space
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(12),
             child: Image.network(
               product.images.isNotEmpty ? product.images[0] : '',
-              height: 121, // Adjusted image height to fit better
-              width: 170,
+              height: 102, // Fixed height to maintain uniformity
+              width: 170, // Fixed width for consistency
               fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) => Container(
+                height: 110,
+                width: 170,
+                color: Colors.grey[300],
+                child: const Icon(Icons.error, color: Colors.red),
+              ), // Displays a placeholder if the image fails to load
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
             child: Text(
               product.description,
               style: TextStyle(color: Colors.grey[600], fontSize: 12),
@@ -53,21 +60,26 @@ class GridTiles extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      product.name,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
+                Expanded(
+                  // Prevents overflow of the Column content
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        product.name,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                    ),
-                    Text(
-                      'K${product.price}',
-                      style: const TextStyle(color: Colors.black),
-                    ),
-                  ],
+                      Text(
+                        'K${product.price}',
+                        style: const TextStyle(color: Colors.black),
+                      ),
+                    ],
+                  ),
                 ),
                 GestureDetector(
                   onTap: () => showPurchaseOptions(context),
